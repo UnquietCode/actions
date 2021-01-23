@@ -9,10 +9,7 @@ inputs:
 runs:
   using: composite
   steps: 
-    - id: read-readme
-      name: read in the readme file
-      run: echo "::set-output name=readme-contents::$(cat ./readme.file.md)"
-
+ 
     - id: create-tree
       name: create a bare tree
       uses: actions/github-script@v3
@@ -23,12 +20,13 @@ runs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             tree: [{
-               path: 'README.md',
+               path: 'dummy',
                mode': '100644',
                type': 'blob',
-               content': "${{ steps.read-readme.outputs.readme-contents }}",              
+               content': "",              
             }]
           })
+
     - id: create-branch
       name: create a bare branch
       uses: actions/github-script@v3
@@ -41,6 +39,7 @@ runs:
             ref: 'refs/heads/${{ github.event.inputs.name }}',
             sha: '${{ steps.create-tree.outputs.result.sha }}',
           })
+
 branding:
   icon: git-commit
   color: gray-dark
