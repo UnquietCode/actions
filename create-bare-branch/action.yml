@@ -1,5 +1,5 @@
 name: Create Branch
-description: Create a bare branch suitable for storing issue PDF's.
+description: Create a bare (orphan) branch in the repository.
 
 inputs:
   name:
@@ -7,38 +7,8 @@ inputs:
     required: true
 
 runs:
-  using: composite
-  steps: 
- 
-    - id: create-tree
-      name: create a bare tree
-      uses: actions/github-script@v3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.git.createTree({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            tree: [{
-               path: 'dummy',
-               mode': '100644',
-               type': 'blob',
-               content': "",              
-            }]
-          })
-
-    - id: create-branch
-      name: create a bare branch
-      uses: actions/github-script@v3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: 'refs/heads/${{ github.event.inputs.name }}',
-            sha: '${{ steps.create-tree.outputs.result.sha }}',
-          })
+  using: 'node12'
+  main: 'index.js'
 
 branding:
   icon: git-commit
