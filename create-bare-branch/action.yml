@@ -8,7 +8,7 @@ inputs:
 
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'action.js'
 
 branding:
   icon: git-commit
