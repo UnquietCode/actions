@@ -53,7 +53,7 @@ const createRef = async (branchName, rootSha) => {
   });
 }
 
-try {
+const createBareBranch = async () => {
   const branchName = core.getInput('name');
   const refExists = await doesRefExist(branchName);
 
@@ -64,7 +64,12 @@ try {
 
   const rootSha = await createTree(branchName);
   await createRef(branchName, rootSha);
-  console.log(`Created branch '${branchName}'.`)
+}
+
+
+try {
+  createBareBranch();
+  console.log(`Created branch '${branchName}'.`);  
 } catch (error) {
   core.setFailed(error.message);
 }
