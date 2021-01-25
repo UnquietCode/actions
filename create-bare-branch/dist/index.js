@@ -8,6 +8,8 @@ module.exports =
 const core = __nccwpck_require__(186);
 const github = __nccwpck_require__(438);
 
+let client = null;
+
 
 const doesRefExist = async (branchName) => {
   try {
@@ -62,7 +64,11 @@ const createRef = async (branchName, rootSha) => {
 
 const createBareBranch = async () => {
   try {  
-    const branchName = core.getInput('name');
+    const token = core.getInput('github-token', {required: true});
+    const branchName = core.getInput('name', {required: true});
+    client = getOctokit(token, {});
+
+    // check for existing branch
     const refExists = await doesRefExist(branchName);
 
     if (refExists) {

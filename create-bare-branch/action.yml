@@ -2,8 +2,11 @@ name: Create Branch
 description: Create a bare (orphan) branch in the repository.
 
 inputs:
+  github-token:
+    description: token used for creating the branch
+    required: true
   name:
-    description: 'name of the branch to create'
+    description: name of the branch to create
     required: true
 
 runs:
