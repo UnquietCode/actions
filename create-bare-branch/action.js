@@ -1,5 +1,5 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
+import core from '@actions/core';
+import github from '@actions/github';
 
 
 const doesRefExist = async (branchName) => {
@@ -49,27 +49,28 @@ const createRef = async (branchName, rootSha) => {
     owner: context.repo.owner,
     repo: context.repo.repo,
     ref: `refs/heads/${branchName}`,
-    sha: rootsha,
+    sha: rootSha,
   });
 }
 
 const createBareBranch = async () => {
-  const branchName = core.getInput('name');
-  const refExists = await doesRefExist(branchName);
+  try {  
+    const branchName = core.getInput('name');
+    const refExists = await doesRefExist(branchName);
 
-  if (refExists) {
-    core.setFailed(`branch ${branchName} exists already`);
-    return;
+    if (refExists) {
+      core.setFailed(`branch ${branchName} exists already`);
+      return;
+    }
+
+    const rootSha = await createTree(branchName);
+    await createCommit(rootSha);
+    await createRef(branchName, rootSha);
+
+    console.log(`Created branch '${branchName}'.`);
+  } catch (error) {
+    core.setFailed(error.message);
   }
-
-  const rootSha = await createTree(branchName);
-  await createRef(branchName, rootSha);
 }
 
-
-try {
-  createBareBranch();
-  console.log(`Created branch '${branchName}'.`);  
-} catch (error) {
-  core.setFailed(error.message);
-}
+/* await */ createBareBranch();
