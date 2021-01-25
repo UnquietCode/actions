@@ -8,6 +8,9 @@ inputs:
   name:
     description: name of the branch to create
     required: true
+  readme:
+    description: contents of the markdown README file which gets created
+    required: false
 
 runs:
   using: 'node12'

@@ -28,7 +28,8 @@ const doesRefExist = async (branchName) => {
 }
 
 const createTree = async (branchName) => {
-  const readme = `# ${branchName}\nThis file exists because it has to.\n`
+  const userContent = core.getInput('readme', {required: false});
+  const readme = userContent || `# ${branchName}\nThis file exists because it has to.\n`;
   
   const result = await client.git.createTree({
     owner: github.context.repo.owner,
