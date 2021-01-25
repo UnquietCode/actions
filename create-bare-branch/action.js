@@ -50,8 +50,8 @@ const createCommit = async (rootSha) => {
 
 const createRef = async (branchName, rootSha) => {
   await client.git.createRef({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
     ref: `refs/heads/${branchName}`,
     sha: rootSha,
   });
@@ -77,6 +77,7 @@ const createBareBranch = async () => {
 
     console.log(`Created branch '${branchName}'.`);
   } catch (error) {
+    console.log(error.toString());
     core.setFailed(error.message);
   }
 }
