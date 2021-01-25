@@ -41,16 +41,18 @@ const createTree = async (branchName) => {
     }]
   });
 
-  return result.sha;
+  return result.data.sha;
 }
 
 const createCommit = async (rootSha) => {
-  await client.git.createCommit({
+  const result = await client.git.createCommit({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     tree: rootSha,
     message: "create bare branch",
   });
+
+  return result.data.sha;
 }
 
 const createRef = async (branchName, rootSha) => {
@@ -77,8 +79,8 @@ const createBareBranch = async () => {
     }
 
     const rootSha = await createTree(branchName);
-    await createCommit(rootSha);
-    await createRef(branchName, rootSha);
+    const commitHash = await createCommit(rootSha);
+    await createRef(branchName, commitHash);
 
     console.log(`Created branch '${branchName}'.`);
   } catch (error) {
