@@ -18,7 +18,7 @@ const doesRefExist = async (branchName) => {
     });
     return true;
   } catch (error) {
-    if (error.toString().contains('Not Found')) {
+    if (error.toString().includes('Not Found')) {
       return false;
     }
     throw error;
