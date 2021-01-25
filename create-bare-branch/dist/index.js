@@ -13,7 +13,7 @@ let client = null;
 
 const doesRefExist = async (branchName) => {
   try {
-    await github.git.getRef({
+    await client.git.getRef({
       owner: github.context.repo.owner,
       repo: github.context.repo.repo,
       ref: `refs/heads/${branchName}`,
@@ -30,7 +30,7 @@ const doesRefExist = async (branchName) => {
 const createTree = async (branchName) => {
   const readme = `# ${branchName}\nThis file exists because it has to.\n`
   
-  const result = await github.git.createTree({
+  const result = await client.git.createTree({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     tree: [{
@@ -45,7 +45,7 @@ const createTree = async (branchName) => {
 }
 
 const createCommit = async (rootSha) => {
-  await github.git.createCommit({
+  await client.git.createCommit({
     owner: github.context.repo.owner,
     repo: github.context.repo.repo,
     tree: rootSha,
@@ -54,7 +54,7 @@ const createCommit = async (rootSha) => {
 }
 
 const createRef = async (branchName, rootSha) => {
-  await github.git.createRef({
+  await client.git.createRef({
     owner: context.repo.owner,
     repo: context.repo.repo,
     ref: `refs/heads/${branchName}`,
@@ -66,7 +66,7 @@ const createBareBranch = async () => {
   try {  
     const token = core.getInput('github-token', {required: true});
     const branchName = core.getInput('name', {required: true});
-    client = getOctokit(token, {});
+    client = github.getOctokit(token, {});
 
     // check for existing branch
     const refExists = await doesRefExist(branchName);
