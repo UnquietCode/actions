@@ -3,23 +3,17 @@ module.exports =
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 582:
-/***/ ((__unused_webpack_module, __webpack_exports__, __nccwpck_require__) => {
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __nccwpck_require__) => {
 
-"use strict";
-__nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(186);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(438);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_1__);
-
-
+const core = __nccwpck_require__(186);
+const github = __nccwpck_require__(438);
 
 
 const doesRefExist = async (branchName) => {
   try {
-    await _actions_github__WEBPACK_IMPORTED_MODULE_1___default().git.getRef({
-      owner: (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.owner),
-      repo: (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo),
+    await github.git.getRef({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
       ref: `refs/heads/${branchName}`,
     });
     return true;
@@ -34,9 +28,9 @@ const doesRefExist = async (branchName) => {
 const createTree = async (branchName) => {
   const readme = `# ${branchName}\nThis file exists because it has to.\n`
   
-  const result = await _actions_github__WEBPACK_IMPORTED_MODULE_1___default().git.createTree({
-    owner: (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.owner),
-    repo: (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo),
+  const result = await github.git.createTree({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
     tree: [{
       path: 'README.md',
       mode: '100644',
@@ -49,16 +43,16 @@ const createTree = async (branchName) => {
 }
 
 const createCommit = async (rootSha) => {
-  await _actions_github__WEBPACK_IMPORTED_MODULE_1___default().git.createCommit({
-    owner: (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.owner),
-    repo: (_actions_github__WEBPACK_IMPORTED_MODULE_1___default().context.repo.repo),
+  await github.git.createCommit({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
     tree: rootSha,
     message: "create bare branch",
   });
 }
 
 const createRef = async (branchName, rootSha) => {
-  await _actions_github__WEBPACK_IMPORTED_MODULE_1___default().git.createRef({
+  await github.git.createRef({
     owner: context.repo.owner,
     repo: context.repo.repo,
     ref: `refs/heads/${branchName}`,
@@ -68,11 +62,11 @@ const createRef = async (branchName, rootSha) => {
 
 const createBareBranch = async () => {
   try {  
-    const branchName = _actions_core__WEBPACK_IMPORTED_MODULE_0___default().getInput('name');
+    const branchName = core.getInput('name');
     const refExists = await doesRefExist(branchName);
 
     if (refExists) {
-      _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(`branch ${branchName} exists already`);
+      core.setFailed(`branch ${branchName} exists already`);
       return;
     }
 
@@ -82,7 +76,7 @@ const createBareBranch = async () => {
 
     console.log(`Created branch '${branchName}'.`);
   } catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0___default().setFailed(error.message);
+    core.setFailed(error.message);
   }
 }
 
@@ -6005,46 +5999,6 @@ module.exports = require("zlib");;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__nccwpck_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => module['default'] :
-/******/ 				() => module;
-/******/ 			__nccwpck_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__nccwpck_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__nccwpck_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__nccwpck_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	__nccwpck_require__.ab = __dirname + "/";/************************************************************************/
