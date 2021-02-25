@@ -1,0 +1,25 @@
+name: Add and Commit
+description: Add a file and commit it.
+
+inputs:
+  github-token:
+    description: token used for creating the branch
+    required: true
+  branch-name:
+    description: name of the branch to commit to
+    required: false
+    default: master
+  file-path:
+    description: path of the file
+    required: true
+  file-data:
+    description: Base64 encoded file data
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
+branding:
+  icon: git-commit
+  color: gray-dark
