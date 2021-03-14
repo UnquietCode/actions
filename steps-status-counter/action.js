@@ -1,9 +1,9 @@
 const core = require('@actions/core');
 
 
-const countSteps = async () => {
+const countSteps = () => {
   try {  
-    const steps = core.getInput('steps', {required: true});
+    const steps = JSON.parse(core.getInput('steps', {required: true}));
     console.log(steps);
 
     const outcomes = {
@@ -19,7 +19,7 @@ const countSteps = async () => {
       skipped: 0,
     };
     
-    for (let step of steps) {
+    for (const step of steps) {
       outcomes[step.outcome] += 1;
       conclusions[step.conclusion] += 1;
     }
@@ -35,4 +35,4 @@ const countSteps = async () => {
   }
 }
 
-/* await */ countSteps();
+countSteps();
