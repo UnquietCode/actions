@@ -1,0 +1,15 @@
+name: Steps Status Counter
+description: Count the number of steps with a certain status.
+
+inputs:
+  steps:
+    description: the steps context to count
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
+branding:
+  icon: git-commit
+  color: gray-dark
